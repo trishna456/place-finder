@@ -1,4 +1,19 @@
+import { useEffect } from "react";
+
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onConfirm();
+    }, 3000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [onConfirm]);
+  //we can face an infinite loop when adding functions as dependencies in useEffect
+  //onConfirm function value will be different whenever the app component re-executes again. new function will get creted with every execution
+  //solution - useCallback to wrap the dependencies functions
+
   return (
     <div id="delete-confirmation">
       <h2>Are you sure?</h2>
